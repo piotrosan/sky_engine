@@ -10,10 +10,10 @@ class Image(models.Model):
     content = models.BinaryField(null=False, blank=False)
     name = models.CharField(max_length=255, null=True, blank=True)
     file_extension = models.CharField(max_length=50)
-    created_date = models.DateTimeField(auto_now=True, auto_now_add=True)
+    created_date = models.DateTimeField(auto_now=True)
     publications = models.ManyToManyField(Gallery)
 
 
-    def recreate_index(self):
+    def switch_index(self):
         pass
 

@@ -1,0 +1,14 @@
+{% extends base.html %}
+
+
+{% block content %}
+    {% for image in gallery_list %}
+        <div class="image">
+            <img src="{{ image.content }}" content="{{ image.name }}" width="200" height="200">
+            <br />
+            <p>{{ image.index }}</p>
+            <input id="{{ image.id }}"/>
+        </div>
+    {% endfor %}
+{% endblock %}
+

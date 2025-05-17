@@ -1,28 +1,48 @@
-from PIL import Image
+import requests
+
+from image.exceptions import ImageException
+from respository import Repository
 from image_manager.models import Image as ImageModel
-import io
+from django.core.paginator import Paginator
+from image_api import ImageAPI
 
-class ImageWorker:
+class ImageGetter:
 
-    def __init__(self, resolutionx: int, resolutiony: int):
-        self.x = resolutionx
-        self.y = resolutiony
+    @classmethod
+    def get_binary_imag_from_remote(cls):
+        r = requests.get(Repository.BASE_URL, stream=True)
+        r.raw.decode_content = True
+        return r.content
 
-    def resize_image(self, image_byte: io.BytesIO) -> Image:
-        im: Image = Image.open(image_byte)
-        return im.resize((self.x, self.y))
 
-    def save_image(self, image_byte, file_extension: str = 'jpg') -> Image:
-        image = ImageModel.objects.create(
-            content=self.convert_to_concrete_format(
-                self.resize_image(image_byte)
-            ),
-            file_extension=file_extension,
-        )
-        image.name = f"Face{image.id}"
-        image.index = image.id
-        return image
+    @classmethod
+    def get_image_from_database(cls, id: int):
+        return ImageModel.objects.get(pk=id)
 
-    def convert_to_concrete_format(self, image_byte, encoder_name: str = 'raw'):
-        sized: Image = self.resize_image(image_byte)
-        return sized.tobytes(encoder_name=encoder_name)
+    @classmethod
+    def get_paginated_image_from_databse(cls, page: int):
+        paginator = Paginator(
+            ImageModel.objects.order_by('created_date'),
+        7)
+        return paginator.get_page(page)
+
+
+class ImageSetter:
+    image_api = ImageAPI()
+
+    @classmethod
+    def set_index(cls, pk: int, index: int):
+        cls.image_api.update_image(pk, {'index': index})
+
+    @classmethod
+    def save_image(cls, image_data: dict):
+        try:
+            cls.image_api.save_image(
+                image_data['image_byte']
+            )
+        except KeyError as e:
+            raise ImageException(f'Image data variable is empty -> {e}')
+
+
+class ImageWorker(ImageSetter, ImageGetter):
+    pass

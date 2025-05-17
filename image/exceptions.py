@@ -1,0 +1,3 @@
+
+class ImageException(Exception):
+    pass

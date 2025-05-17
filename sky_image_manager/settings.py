@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-bxm*7jgw!6(lzyb906y=*pb0jmf93td!$m$(hr*5n=e3%^7v9t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost',]
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'sky_image_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['template', 'image_manager/template'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

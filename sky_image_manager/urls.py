@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from image_manager.views import GalleryView, ImageView
 
 urlpatterns = [
-    path("publishers/", PublisherListView.as_view()),
+    path("gallery/", GalleryView.as_view()),
+    path("image/", ImageView.as_view()),
 ]
