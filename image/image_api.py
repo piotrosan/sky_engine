@@ -10,7 +10,13 @@ class ImageAPI:
         im: Image = Image.open(image_byte)
         return self.convert_to_byte(im.resize((x, y)))
 
-    def save_image(self, image_byte, file_extension: str = 'jpg', index: int = None, name: str = None) -> Image:
+    def save_image(
+            self,
+            image_byte,
+            file_extension: str = 'jpg',
+            index: int = None,
+            name: str = None
+    ) -> Image:
         image = ImageModel.objects.create(
             content=image_byte,
             file_extension=file_extension,
@@ -24,5 +30,5 @@ class ImageAPI:
         {setattr(im, k, v) for k, v in params.items()}
         im.save()
 
-    def convert_to_byte(self, image: Image, encoder_name: str = 'raw'):
+    def convert_to_byte(self, image: Image, encoder_name: str = 'raw') -> io.BytesIO:
         return image.tobytes(encoder_name=encoder_name)

@@ -16,8 +16,8 @@ class ImageGetter:
 
 
     @classmethod
-    def get_image_from_database(cls, id: int):
-        return ImageModel.objects.get(pk=id)
+    def get_image_from_database(cls, index: int):
+        return ImageModel.objects.get(index=index)
 
     @classmethod
     def get_paginated_image_from_databse(cls, page: int):
@@ -26,6 +26,11 @@ class ImageGetter:
         7)
         return paginator.get_page(page)
 
+    @classmethod
+    def change_index(cls, old_index: int):
+        set1 = ImageModel.objects.all().value_list('id', flat=True)
+        size = set1.
+        ImageModel.objects.fiter(index=old_index).update(index=)
 
 class ImageSetter:
     image_api = ImageAPI()
