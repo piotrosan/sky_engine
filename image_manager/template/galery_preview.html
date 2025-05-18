@@ -3,8 +3,40 @@
 
 {% block content %}
 
-    <img src="{{image}}" width="200" height="200">
-    <br />
-    <button id="saveImage" type="button">Save to Databse</button>
+    <div>
+        <img src="{{image.content}}" width="200" height="200">
+        <br />
+        <input id="index" value="{{ image.id }}"/>
+        <button id="changeIndex" type="button">Change Index</button>
+    </div>
 
+{% endblock %}
+
+
+{% block js_sky %}
+    <script type="text/javascript">
+        const imageSaveButton = document.querySelector("#changeIndex");
+        imageSaveButton.addEventListener(
+            "click",
+            (event) => {
+                const index = document.getElementById("index").value
+
+                const request = new Request("https://localhost:8080/gallery/" + index, {
+                  method: "POST",
+                  body: formData
+                });
+
+                fetch(request)
+                  .then((response) => {
+                    if (response.status === 200) {
+                      return response.json();
+                    } else {
+                      throw new Error("Something went wrong on API server!");
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+        })
+    </script>
 {% endblock %}

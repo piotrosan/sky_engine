@@ -17,7 +17,6 @@ class GalleryView(View):
             }
         )
 
-
 class ImageView(View):
     template_name = 'image.html'
 
@@ -46,10 +45,18 @@ class ImageView(View):
         pk = request.POST['pk']
         ImageWorker.set_index(pk, index)
 
-
 def gallery_preview(request, index):
     try:
-        ImageWorker.get_image_from_database(index)
+        image = ImageWorker.get_image_from_database(index)
     except :
-        raise Http404("Poll does not exist")
-    return render(request, "polls/detail.html", {"poll": p})
+        #  sorry for dump error
+        raise Http404("SOme error")
+    return render(request, "galery_preview.html", {'image': image})
+
+def gallery(request, index):
+    try:
+        image = ImageWorker.change_index(index)
+    except :
+        #  sorry for dump error
+        raise Http404("Some error")
+    return render(request, "galery_preview.html", {'image': image})

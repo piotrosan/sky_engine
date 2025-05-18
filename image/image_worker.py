@@ -1,10 +1,10 @@
 import requests
 
 from image.exceptions import ImageException
-from respository import Repository
+from image.respository import Repository
 from image_manager.models import Image as ImageModel
 from django.core.paginator import Paginator
-from image_api import ImageAPI
+from image.image_api import ImageAPI
 
 class ImageGetter:
 
@@ -28,9 +28,10 @@ class ImageGetter:
 
     @classmethod
     def change_index(cls, old_index: int):
-        set1 = ImageModel.objects.all().value_list('id', flat=True)
-        size = set1.
-        ImageModel.objects.fiter(index=old_index).update(index=)
+        set1 = set(ImageModel.objects.value_list('id', flat=True).all())
+        set2 = set(range(0, 1000000))
+        diff = set2.difference(set1)
+        ImageModel.objects.fiter(index=old_index).update(index=diff.pop())
 
 class ImageSetter:
     image_api = ImageAPI()

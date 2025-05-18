@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from image_manager.views import GalleryView, ImageView
+from image_manager.views import GalleryView, ImageView, gallery_preview
 
 urlpatterns = [
     path("gallery/", GalleryView.as_view()),
     path("image/", ImageView.as_view()),
+    path("gallery/preview/<int:index>", gallery_preview),
+    path("gallery/<int:index>", ImageView.as_view()),
+
 ]
