@@ -21,7 +21,7 @@
             (event) => {
                 const index = document.getElementById("index").value
 
-                const request = new Request("https://localhost:8080/gallery/" + index, {
+                const request = new Request("https://localhost:8000/gallery/" + index, {
                   method: "POST",
                   body: formData
                 });

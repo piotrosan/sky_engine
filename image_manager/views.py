@@ -1,6 +1,8 @@
+import ipdb
 from django.shortcuts import render
 from django.views import View
 from django.http import Http404
+from django.views.decorators.csrf import csrf_exempt
 
 from image.image_worker import ImageWorker
 
@@ -20,15 +22,15 @@ class GalleryView(View):
 class ImageView(View):
     template_name = 'image.html'
 
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
+        ipdb;ipdb.set_trace()
         image_byte = request.POST['image']
         ImageWorker.save_image(image_byte)
         return render(
             request,
             self.template_name,
-            {
-                'image': ImageWorker.get_binary_imag_from_remote()
-            }
+            {}
         )
 
     def get(self, request, *args, **kwargs):
@@ -40,6 +42,7 @@ class ImageView(View):
             }
         )
 
+    @csrf_exempt
     def patch(self, request, *args, **kwargs):
         index = request.POST['index']
         pk = request.POST['pk']

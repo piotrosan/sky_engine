@@ -1,10 +1,62 @@
-{% extends base.html %}
+{% extends 'base.html' %}
 
 
 {% block content %}
 
-    <img src="{{image}}" width="200" height="200">
+    <img id="image" src="data:image/jpg;charset=utf-16;base64, <?={{image}}?>" width="200" height="200">
     <br />
     <button id="saveImage" type="button">Save to Databse</button>
 
+    <script>
+        const imageSaveButton = document.querySelector("#saveImage");
+        const dok = document;
+        imageSaveButton.dok = dok;
+
+        function getCookie(name) {
+              if (!document.cookie) {
+                return null;
+              }
+
+              const xsrfCookies = document.cookie.split(';').map(
+                    c => c.trim()
+                ).filter(
+                    c => c.startsWith(name + '=')
+                );
+
+              if (xsrfCookies.length === 0) {
+                return null;
+              }
+              return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+        }
+
+        const headers = new Headers({
+            'Content-Type': 'x-www-form-urlencoded',
+            'X-CSRF-TOKEN': csrfToken
+        });
+        imageSaveButton.addEventListener(
+            "click",
+            (event) => {
+                const formData = new FormData();
+                formData.append(
+                    "image",
+                    event.currentTarget.dok.getElementById("image").src
+                );
+
+                const request = new Request("http://localhost:8000/image/", {
+                  method: "POST",
+                  headers,
+                  body: formData
+                });
+
+                fetch(request)
+                  .then(
+                    (response) => {
+                        if (response.status === 200) {
+                          return response.json();
+                        } else {
+                          throw new Error("Something went wrong on API server!");
+                        }
+                  );
+        });
+    </script>
 {% endblock %}

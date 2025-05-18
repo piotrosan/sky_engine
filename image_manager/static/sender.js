@@ -5,7 +5,7 @@ imageSaveButton.addEventListener(
         const formData = new FormData();
         formData.append("image", document.getElementById("image").src);
 
-        const request = new Request("https://localhost:8080/", {
+        const request = new Request("https://localhost:8000/", {
           method: "POST",
           body: formData
         });

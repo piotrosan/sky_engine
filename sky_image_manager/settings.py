@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',]
 
+CSRF_COOKIE_SECURE = False
 
 # Application definition
 
@@ -75,12 +76,12 @@ WSGI_APPLICATION = 'sky_image_manager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'example',
         'USER': 'example',
         'PASSWORD': 'example',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'HOST': 'localhost',
+        # 'PORT': '5432'
     }
 }
 

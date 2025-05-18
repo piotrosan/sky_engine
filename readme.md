@@ -11,4 +11,4 @@
 ## Run app
 #### In sky_engine folder 
 
-1. manage.py run 
+1. manage.py runserver
