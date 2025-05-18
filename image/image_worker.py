@@ -5,6 +5,7 @@ from image.respository import Repository
 from image_manager.models import Image as ImageModel
 from django.core.paginator import Paginator
 from image.image_api import ImageAPI
+import base64
 
 class ImageGetter:
 
@@ -12,7 +13,7 @@ class ImageGetter:
     def get_binary_imag_from_remote(cls):
         r = requests.get(Repository.BASE_URL, stream=True)
         r.raw.decode_content = True
-        return r.content
+        return base64.b64encode(r.content)
 
 
     @classmethod
